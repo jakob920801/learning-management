@@ -22,6 +22,7 @@ RUN npm prune --production
 # Use a second stage to prepare the production image
 FROM public.ecr.aws/lambda/nodejs:20
 
+
 # Set the working directory
 WORKDIR ${LAMBDA_TASK_ROOT}
 
@@ -34,6 +35,8 @@ COPY --from=build /app/package*.json ${LAMBDA_TASK_ROOT}
 
 # Set environment variables (adjust as needed)
 ENV NODE_ENV=production
+
+RUN chmod +x ${LAMBDA_TASK_ROOT}/index.js
 
 # Command to start the Lambda function
 CMD ["index.handler"]
